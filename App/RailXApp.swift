@@ -9,7 +9,7 @@ import RailXCore
 struct RailXApp: App {
     var body: some Scene {
         WindowGroup {
-            RailXHomeView()
+            RailXRootView()
         }
     }
 }

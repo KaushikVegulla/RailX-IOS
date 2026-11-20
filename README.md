@@ -5,9 +5,13 @@ The Android app (Kotlin / Jetpack Compose) lives in
 [Railway-Reservation-System-](https://github.com/KaushikVegulla/Railway-Reservation-System-);
 this repo is the iOS counterpart planned in the RailX iOS roadmap (20 Nov 2026).
 
-**Status: Phase 1 in progress.** The build pipeline is proven (macOS CI,
-simulator build + tests green). Phase 1 adds the real app target and
-Supabase auth parity with Android — same project, same accounts.
+**Status: Phase 2 in progress.** Pipeline, app target and Supabase auth
+are proven (macOS CI green). Phase 2 adds the core screens — Search,
+Trips (bookings/history with detail + Cancellation Advisor) and Profile —
+reading the user's real data from the shared Supabase backend. Live train
+search still comes from RailRadar on Android; iOS does not ship that API
+key, so Search results say so plainly until the key is proxied through a
+Supabase Edge Function. No train data is invented.
 
 ## How it builds with no Mac
 
