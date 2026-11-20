@@ -11,6 +11,10 @@ public struct ProfileView: View {
 
     private let bookingService = BookingService()
     private let auth = AuthService()
+    private let accountService = AccountService()
+
+    @State private var showDeleteConfirm: Bool = false
+    @State private var isDeleting: Bool = false
 
     public init() {}
 
@@ -75,15 +79,30 @@ public struct ProfileView: View {
                         }
 
                         Section {
-                            Button("Sign out", role: .destructive) {
+                            Button("Sign out") {
                                 Task { await signOut() }
                             }
+                        }
+
+                        Section("Danger zone") {
+                            Button("Delete account", role: .destructive) {
+                                showDeleteConfirm = true
+                            }
+                            .disabled(isDeleting)
                         }
                     }
                 }
             }
             .navigationTitle("Profile")
             .task { await load() }
+            .alert("Delete your account?", isPresented: $showDeleteConfirm) {
+                Button("Cancel", role: .cancel) {}
+                Button("Delete permanently", role: .destructive) {
+                    Task { await deleteAccount() }
+                }
+            } message: {
+                Text("This permanently deletes your RailX account, bookings, saved passengers and profile on every device. This cannot be undone.")
+            }
         }
     }
 
@@ -94,6 +113,27 @@ public struct ProfileView: View {
         guard signedInEmail != nil else { return }
         profile = try? await bookingService.myProfile()
         passengers = (try? await bookingService.savedPassengers()) ?? []
+    }
+
+    private func deleteAccount() async {
+        isDeleting = true
+        defer { isDeleting = false }
+        do {
+            let deleted = try await accountService.deleteAccount()
+            if deleted {
+                // The user no longer exists server-side; clear the
+                // local session best-effort and reset the screen.
+                try? await auth.signOut()
+                signedInEmail = nil
+                profile = nil
+                passengers = []
+                message = "Your account was deleted."
+            } else {
+                message = "The server didn't confirm deletion. Please try again."
+            }
+        } catch {
+            message = "Delete failed: \(error.localizedDescription)"
+        }
     }
 
     private func signOut() async {

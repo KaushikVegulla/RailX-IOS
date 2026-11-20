@@ -5,15 +5,16 @@ The Android app (Kotlin / Jetpack Compose) lives in
 [Railway-Reservation-System-](https://github.com/KaushikVegulla/Railway-Reservation-System-);
 this repo is the iOS counterpart planned in the RailX iOS roadmap (20 Nov 2026).
 
-**Status: Phase 3 in progress.** Pipeline, app target, Supabase auth and
-the core screens are proven (macOS CI green). Phase 3 adds payments and
-live search, both through Supabase Edge Functions so no secret ever
-ships in the app: `create-order` + `verify-payment` for Razorpay (with a
-checkout bridge and a test-payment screen under Profile), and
-`railradar-proxy` for live train search. The functions live in
-`supabase/functions/` with deploy instructions in `supabase/README.md` —
-until they are deployed, payments and live search report that the
-server side isn't configured. Nothing is simulated client-side.
+**Status: Phase 4 prepared.** Pipeline, app target, Supabase auth, core
+screens, payments and live search are proven (macOS CI green). Payments
+and live search run through Supabase Edge Functions so no secret ever
+ships in the app: `create-order` + `verify-payment` for Razorpay (with
+a checkout bridge and a test-payment screen under Profile),
+`railradar-proxy` for live train search, and `delete-account` for
+in-app account deletion — all deployed live on 20 Nov 2026. The
+TestFlight pipeline, app icon and privacy manifest are built; shipping
+the first TestFlight build needs the Apple Developer enrollment and
+four repo secrets — see `TESTFLIGHT.md`.
 
 ## How it builds with no Mac
 
