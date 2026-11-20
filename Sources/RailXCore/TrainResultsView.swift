@@ -12,7 +12,7 @@ public struct TrainResultsView: View {
     @State private var message: String?
     @State private var isLoading: Bool = true
 
-    public init(query: TrainSearchQuery, searcher: any TrainSearching = UnavailableTrainSearch()) {
+    public init(query: TrainSearchQuery, searcher: any TrainSearching = RailRadarTrainSearch()) {
         self.query = query
         self.searcher = searcher
     }
@@ -39,6 +39,11 @@ public struct TrainResultsView: View {
                         Text("\(train.depart) → \(train.arrive) · \(train.duration)")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
+                        if !train.fromStation.isEmpty {
+                            Text("\(train.fromStation) → \(train.toStation)\(train.distance.isEmpty ? "" : " · \(train.distance)")")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
             }
@@ -58,7 +63,9 @@ public struct TrainResultsView: View {
                 message = "No trains found for \(query.dateString)."
             }
         } catch TrainSearchError.liveDataUnavailable {
-            message = "Live train data isn't connected on iOS yet.\n\nOn Android it comes from RailRadar, whose API key isn't shipped in this app. It will arrive through a Supabase Edge Function proxy — no trains are invented in the meantime.\n\nYour existing bookings are under the Trips tab."
+            message = "Live train data isn't reachable yet.\n\nSearches go through the railradar-proxy Supabase Edge Function so the RailRadar API key never ships in this app. That function still needs deploying (see supabase/README.md in the repo) — no trains are invented in the meantime.\n\nYour existing bookings are under the Trips tab."
+        } catch TrainSearchError.searchFailed(let reason) {
+            message = "Train search failed: \(reason)"
         } catch {
             message = "Search failed: \(error.localizedDescription)"
         }

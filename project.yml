@@ -10,6 +10,9 @@ options:
 packages:
   RailXCore:
     path: .
+  Razorpay:
+    url: https://github.com/razorpay/razorpay-pod
+    from: 1.4.0
 targets:
   RailX:
     type: application
@@ -28,6 +31,7 @@ targets:
     dependencies:
       - package: RailXCore
         product: RailXCore
+      - package: Razorpay
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kaushikvegulla.railx

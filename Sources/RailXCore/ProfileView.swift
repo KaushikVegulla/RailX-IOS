@@ -68,6 +68,12 @@ public struct ProfileView: View {
                             }
                         }
 
+                        Section("Payments") {
+                            NavigationLink("Test a payment") {
+                                PaymentTestView()
+                            }
+                        }
+
                         Section {
                             Button("Sign out", role: .destructive) {
                                 Task { await signOut() }

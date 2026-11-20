@@ -27,24 +27,32 @@ public struct TrainResult: Equatable, Sendable, Identifiable {
     public var depart: String
     public var arrive: String
     public var duration: String
+    public var fromStation: String
+    public var toStation: String
+    public var distance: String
 
     public var id: String { number }
 
-    public init(number: String, name: String, depart: String, arrive: String, duration: String) {
+    public init(number: String, name: String, depart: String, arrive: String, duration: String,
+                fromStation: String = "", toStation: String = "", distance: String = "") {
         self.number = number
         self.name = name
         self.depart = depart
         self.arrive = arrive
         self.duration = duration
+        self.fromStation = fromStation
+        self.toStation = toStation
+        self.distance = distance
     }
 }
 
 public enum TrainSearchError: Error, Equatable {
-    /// Live train data comes from RailRadar on Android, whose API key is
-    /// a per-account secret that is not shipped in the iOS app. Live
-    /// search lands when the key can be proxied through a Supabase Edge
-    /// Function — no train data is ever invented in the meantime.
+    /// The railradar-proxy Edge Function isn't deployed/configured yet,
+    /// so live data can't be reached. No train data is ever invented
+    /// in the meantime.
     case liveDataUnavailable
+    /// The proxy answered but the search itself failed (message from RailRadar).
+    case searchFailed(String)
 }
 
 public protocol TrainSearching: Sendable {
