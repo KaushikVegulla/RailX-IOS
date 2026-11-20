@@ -1,0 +1,8 @@
+.build/
+DerivedData/
+*.xcresult
+xcuserdata/
+*.xcodeproj/xcuserdata/
+.DS_Store
+.swiftpm/
+RailX.xcodeproj
