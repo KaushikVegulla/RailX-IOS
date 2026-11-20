@@ -64,12 +64,12 @@ final class CheckoutPresenter: NSObject, RazorpayPaymentCompletionProtocolWithDa
         razorpay?.open(options, displayController: viewController)
     }
 
-    func onPaymentSuccess(_ payment_id: String, andData response: [AnyHashable: Any]) {
-        let signature = response["razorpay_signature"] as? String ?? ""
+    func onPaymentSuccess(_ payment_id: String, andData response: [AnyHashable: Any]?) {
+        let signature = response?["razorpay_signature"] as? String ?? ""
         finish(.success(paymentId: payment_id, signature: signature))
     }
 
-    func onPaymentError(_ code: Int, description str: String, andData response: [AnyHashable: Any]) {
+    func onPaymentError(_ code: Int32, description str: String, andData response: [AnyHashable: Any]?) {
         finish(.failure(str))
     }
 
