@@ -32,6 +32,7 @@ targets:
       - package: RailXCore
         product: RailXCore
       - package: Razorpay
+        product: RazorpayCheckout
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kaushikvegulla.railx
