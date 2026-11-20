@@ -22,6 +22,9 @@ public struct RailXHomeView: View {
                     Button("Search trains") {
                         // Phase 2: query the shared RailX backend.
                     }
+                    NavigationLink("Sign in") {
+                        LoginView()
+                    }
                 }
                 Section("About") {
                     Text("RailX for iOS — native SwiftUI, reusing the same Supabase backend as RailX Android.")

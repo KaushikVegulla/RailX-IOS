@@ -63,3 +63,25 @@ jobs:
           name: ios-test-results
           path: TestResults.xcresult
           if-no-files-found: ignore
+
+      - name: Generate Xcode project (XcodeGen)
+        run: |
+          command -v xcodegen >/dev/null 2>&1 || brew install xcodegen
+          xcodegen generate
+          ls -la RailX.xcodeproj
+
+      - name: Build RailX app for iOS Simulator (unsigned)
+        run: |
+          xcodebuild build \
+            -project RailX.xcodeproj \
+            -scheme RailX \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath DerivedDataCI \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload RailX app (simulator build)
+        uses: actions/upload-artifact@v4
+        with:
+          name: railx-ios-app-simulator
+          path: DerivedDataCI/Build/Products/Debug-iphonesimulator/RailX.app
+          if-no-files-found: error

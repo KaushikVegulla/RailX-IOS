@@ -5,8 +5,9 @@ The Android app (Kotlin / Jetpack Compose) lives in
 [Railway-Reservation-System-](https://github.com/KaushikVegulla/Railway-Reservation-System-);
 this repo is the iOS counterpart planned in the RailX iOS roadmap (20 Nov 2026).
 
-**Status: Phase 0/1 scaffold.** No feature parity yet — this repo exists to
-prove the build pipeline first.
+**Status: Phase 1 in progress.** The build pipeline is proven (macOS CI,
+simulator build + tests green). Phase 1 adds the real app target and
+Supabase auth parity with Android — same project, same accounts.
 
 ## How it builds with no Mac
 

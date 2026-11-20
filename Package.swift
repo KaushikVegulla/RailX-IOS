@@ -9,8 +9,16 @@ let package = Package(
     products: [
         .library(name: "RailXCore", targets: ["RailXCore"])
     ],
+    dependencies: [
+        .package(url: "https://github.com/supabase/supabase-swift", from: "2.5.0")
+    ],
     targets: [
-        .target(name: "RailXCore"),
+        .target(
+            name: "RailXCore",
+            dependencies: [
+                .product(name: "Supabase", package: "supabase-swift")
+            ]
+        ),
         .testTarget(name: "RailXCoreTests", dependencies: ["RailXCore"])
     ]
 )

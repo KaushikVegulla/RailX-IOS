@@ -1,7 +1,7 @@
-# XcodeGen spec for the RailX iOS app (Phase 1).
+# XcodeGen spec for the RailX iOS app.
 # Generate the Xcode project with:  xcodegen generate
-# CI currently builds/tests the RailXCore SwiftPM package directly;
-# the app target joins CI once the generated project is committed.
+# CI generates it fresh on the macOS runner and builds the app target
+# for the iOS Simulator (unsigned).
 name: RailX
 options:
   bundleIdPrefix: com.kaushikvegulla
@@ -16,11 +16,21 @@ targets:
     platform: iOS
     sources:
       - App
+    info:
+      path: App/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
     dependencies:
       - package: RailXCore
         product: RailXCore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.kaushikvegulla.railx
-        MARKETING_VERSION: "0.1.0"
-        CURRENT_PROJECT_VERSION: "1"
+        MARKETING_VERSION: "0.2.0"
+        CURRENT_PROJECT_VERSION: "2"
+        SWIFT_VERSION: "5.0"
