@@ -85,3 +85,24 @@ jobs:
           name: railx-ios-app-simulator
           path: DerivedDataCI/Build/Products/Debug-iphonesimulator/RailX.app
           if-no-files-found: error
+
+      - name: Build RailX app for iOS device (unsigned) and package IPA
+        run: |
+          xcodebuild build \
+            -project RailX.xcodeproj \
+            -scheme RailX \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath DerivedDataDevice \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
+          mkdir -p IPAPackage/Payload
+          cp -R DerivedDataDevice/Build/Products/Release-iphoneos/RailX.app IPAPackage/Payload/
+          cd IPAPackage && zip -qry ../RailX-unsigned.ipa Payload
+          ls -la ../RailX-unsigned.ipa
+
+      - name: Upload RailX IPA (unsigned)
+        uses: actions/upload-artifact@v4
+        with:
+          name: railx-ios-ipa-unsigned
+          path: RailX-unsigned.ipa
+          if-no-files-found: error
